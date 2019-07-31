@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+
+class Categories(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50, unique=True, allow_unicode=True)
+    parent_category = models.ForeignKey("self", on_delete=models.CASCADE)
+
