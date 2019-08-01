@@ -22,3 +22,13 @@ class Products(models.Model):
     fast_send = models.BooleanField(default=False)
     size = models.CharField(max_length=10)
     color = models.CharField(max_length=10)
+
+
+class Pictures(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='pictures')
+
+
+class Tags(models.Model):
+    product = models.ManyToManyField(Products, 'product')
+    tag = models.CharField(max_length=20)
