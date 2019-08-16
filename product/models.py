@@ -50,7 +50,23 @@ class Picture(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='pictures/{}/'.format(product.name))
 
+    def __str__(self):
+        return 'تصویر محصول - {}'.format(self.product.name)
+
+    class Meta:
+        verbose_name = 'picture'
+        verbose_name_plural = 'pictures'
+        db_table = 'pictures'
+
 
 class Tag(models.Model):
     product = models.ManyToManyField(Product, 'product')
     tag = models.CharField(max_length=20)
+
+    def __str__(self):
+        return '{}'.format(self.tag)
+
+    class Meta:
+        verbose_name = 'tag'
+        verbose_name_plural = 'tags'
+        db_table = 'tags'
