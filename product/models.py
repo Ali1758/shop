@@ -27,15 +27,23 @@ class Product(models.Model):
     description = models.TextField()
     off_percent = models.DecimalField(max_digits=4, decimal_places=2)
     off_expire = models.DateField()
-    price = models.PositiveIntegerField(max_length=10)
-    count = models.PositiveIntegerField(max_length=5)
-    sold = models.PositiveIntegerField(max_length=5)
-    rate = models.PositiveIntegerField(max_length=1)
-    rate_count = models.PositiveIntegerField(max_length=5)
+    price = models.PositiveIntegerField()
+    count = models.PositiveIntegerField()
+    sold = models.PositiveIntegerField()
+    rate = models.PositiveIntegerField()
+    rate_count = models.PositiveIntegerField()
     fast_send = models.BooleanField(default=False)
     pic_size = models.ImageField(upload_to='pictures/products_size')
     size = models.CharField(max_length=10)
     color = models.CharField(max_length=10)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+    class Meta:
+        verbose_name = 'product'
+        verbose_name_plural = 'products'
+        db_table = 'products'
 
 
 class Picture(models.Model):
