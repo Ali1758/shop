@@ -1,16 +1,29 @@
 from django.db import models
 
 
-class Categories(models.Model):
+class Category (models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True, allow_unicode=True)
-    parent_category = models.ForeignKey("self", on_delete=models.CASCADE)
+    parent_category = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
+
+    def is_parent(self):
+        if self.parent_category:
+            return False
+        return True
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+        db_table = 'category'
 
 
-class Products(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, allow_unicode=True)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
     off_percent = models.DecimalField(max_digits=4, decimal_places=2)
     off_expire = models.DateField()
@@ -20,15 +33,16 @@ class Products(models.Model):
     rate = models.PositiveIntegerField(max_length=1)
     rate_count = models.PositiveIntegerField(max_length=5)
     fast_send = models.BooleanField(default=False)
+    pic_size = models.ImageField(upload_to='pictures/products_size')
     size = models.CharField(max_length=10)
     color = models.CharField(max_length=10)
 
 
-class Pictures(models.Model):
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='pictures')
+class Picture(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='pictures/{}/'.format(product.name))
 
 
-class Tags(models.Model):
-    product = models.ManyToManyField(Products, 'product')
+class Tag(models.Model):
+    product = models.ManyToManyField(Product, 'product')
     tag = models.CharField(max_length=20)
