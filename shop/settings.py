@@ -114,3 +114,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
+
+DEFAULT_CHARSET = 'utf-8'
+ALLOW_UNICODE_SLUGS = True
+
+AUTH_USER_MODEL = 'account.User'
